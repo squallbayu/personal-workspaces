@@ -1,5 +1,6 @@
 package org.squallbayu.app.myportal.controller;
 
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -8,18 +9,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-public class BaseController {
+public class Index {
 	private static int counter = 0;
 	private static final String VIEW_INDEX = "index";
-	private final static org.slf4j.Logger logger = LoggerFactory
-			.getLogger(BaseController.class);
+
+	private Logger logger = LoggerFactory.getLogger(Index.class);
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String welcome(ModelMap model) {
 
 		model.addAttribute("message", "Welcome");
 		model.addAttribute("counter", ++counter);
-		logger.debug("[welcome] counter : {}", counter);
+		getLogger().debug("[welcome] counter : {}", counter);
 
 		// Spring uses InternalResourceViewResolver and return back index.jsp
 		return VIEW_INDEX;
@@ -31,9 +32,24 @@ public class BaseController {
 
 		model.addAttribute("message", "Welcome " + name);
 		model.addAttribute("counter", ++counter);
-		logger.debug("[welcomeName] counter : {}", counter);
+		getLogger().debug("[welcomeName] counter : {}", counter);
 		return VIEW_INDEX;
 
 	}
 
+	@RequestMapping(value = "/viewemployees", method = RequestMethod.GET)
+	public String ViewEmployees(@PathVariable String name, ModelMap model) {
+		
+		model.addAttribute("employeeName","" );
+		return "viewemployees";
+
+	}
+	
+	public Logger getLogger() {
+		return logger;
+	}
+
+	public void setLogger(Logger logger) {
+		this.logger = logger;
+	}
 }
